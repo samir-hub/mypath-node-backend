@@ -1,0 +1,17 @@
+{
+  "name": "mypath-node-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/samir-hub/mypath-node-backend.git",
+  "author": "Samir Lilienfeld <samirlilienfeld@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.1",
+    "knex-cleaner": "^1.3.0",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

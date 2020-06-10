@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Dotenv = require("dotenv");
 var server_1 = require("./server");
-var port = 5000;
-server_1.default.listen(port, function () {
-    console.log("Listening on port " + port + "...");
+Dotenv.config();
+var PORT = process.env.PORT || 5000;
+console.log(PORT);
+server_1.default.listen(PORT, function () {
+    console.log("Listening on port " + PORT + "...");
 });

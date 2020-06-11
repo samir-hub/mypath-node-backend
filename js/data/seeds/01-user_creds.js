@@ -36,14 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seed = function (knex) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        knex("user_creds").insert([
-            {
-                username: "user1",
-                password: "$2y$12$e25suBDrhzx.Jtw5Fd2bHuSYriQX/8s5pLMMoQ/kd4IVtlPlyiyz2",
-            },
-        ]);
-        return [2 /*return*/];
-    });
-}); };
+var data = [
+    {
+        username: "user1",
+        password: "$2y$12$e25suBDrhzx.Jtw5Fd2bHuSYriQX/8s5pLMMoQ/kd4IVtlPlyiyz2",
+    },
+    {
+        username: "user2",
+        password: "$2y$12$e25suBDrhzx.Jtw5Fd2bHuSYriQX/8s5pLMMoQ/kd4IVtlPlyiyz2",
+    },
+    {
+        username: "user3",
+        password: "$2y$12$e25suBDrhzx.Jtw5Fd2bHuSYriQX/8s5pLMMoQ/kd4IVtlPlyiyz2",
+    },
+];
+exports.seed = function (knex) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, knex("user_creds").insert(data)];
+}); }); };

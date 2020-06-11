@@ -1,11 +1,7 @@
 import * as Knex from "knex";
+import { UserCreds } from "../../types"; 
 
-interface MyInterface {
-  username: string;
-  password: string;
-}
-
-const data: MyInterface[] = [
+const data: UserCreds[] = [
   {
     username: "user1",
     password: "$2y$12$e25suBDrhzx.Jtw5Fd2bHuSYriQX/8s5pLMMoQ/kd4IVtlPlyiyz2",

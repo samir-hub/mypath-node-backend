@@ -1,6 +1,7 @@
-import db from "../dbConfig";
+import type * as Knex from "knex";
 
 interface ModelTemplateArg<T> {
+  db: Knex<any, unknown[]>;
   tableName: string;
   keyColumnName?: string;
   preprocessData?: (data: T) => any;
@@ -8,6 +9,7 @@ interface ModelTemplateArg<T> {
 }
 
 export const basicModelTemplate = <T>({
+  db,
   tableName,
   keyColumnName = "id",
   preprocessData = (data: T) => data,

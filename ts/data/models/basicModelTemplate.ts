@@ -30,7 +30,25 @@ export const basicModelTemplate = <T>({
       .then(([id]) => get({ [keyColumnName]: id } as T));
 
   interface UpdateArg {
-      keyValue: any,
-      changes: T,
-  }    
+    keyValue: any;
+    changes: T;
+  }
+
+  const update = ({ keyValue, changes }: UpdateArg) =>
+    db(tableName)
+      .where({ [keyColumnName]: keyValue })
+      .update(preprocessData(changes))
+      .then((count) =>
+        count > 0 ? get({ [keyColumnName]: keyValue } as T) : null
+      );
+
+  const remove = (arg) =>
+    db(tableName).where(keyColumnName, arg[keyColumnName]).del();
+
+  return {
+    get,
+    insert,
+    update,
+    remove,
+  };
 };

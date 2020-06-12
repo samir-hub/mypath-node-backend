@@ -1,7 +1,10 @@
 import * as Dotenv from 'dotenv'; 
-import server from './server';
 
 Dotenv.config(); 
+
+import server from './server';
+
+
 const PORT = process.env.PORT || 5000; 
 
 console.log(PORT);

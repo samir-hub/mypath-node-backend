@@ -5,7 +5,7 @@ import { basicModelTemplate } from "./basicModelTemplate";
 const tableName = "user_creds";
 
 const { get, insert } = basicModelTemplate<UserCreds>({
-    db,
+  db,
   tableName,
 });
 

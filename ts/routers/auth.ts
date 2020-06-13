@@ -1,6 +1,7 @@
 import { Router } from "express";
 import type * as Express from "express";
 import { UserCreds } from "../data/models";
+import * as Bcrypt from 'bcryptjs'; 
 
 import { validateCreds } from '../middleware'; 
 
@@ -10,6 +11,8 @@ router.use(validateCreds);
 
 const register = async (req: Express.Request, res: Express.Response) => {
   const { username, password } = req.body;
+  const hashedPassword = Bcrypt.hashSync(password, 8); 
+
   try {
     const result1 = await UserCreds.get({ username });
     if (result1.length !== 0) {

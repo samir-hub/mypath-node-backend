@@ -29,7 +29,8 @@ export const basicModelTemplate = <T>({
   const insert = ({ item }: InsertArg) =>
     db(tableName)
       .insert(preprocessData(item), keyColumnName)
-      .then(([id]) => get({ [keyColumnName]: id } as T));
+      .then(([id]) => get({ [keyColumnName]: id } as T))
+      .then(([result]) => result as T);
 
   interface UpdateArg {
     keyValue: any;

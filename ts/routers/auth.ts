@@ -20,10 +20,10 @@ const register = async (req: Express.Request, res: Express.Response) => {
         message: `Username ${username} already exists.`,
       });
     }
-    const result2 = await UserCreds.insert({
+    const [result2] = await UserCreds.insert({
       item: {
-        username,
-        password,
+        username: username,
+        password: hashedPassword,
       },
     });
     return res.status(201).json(result2);

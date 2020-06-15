@@ -28,7 +28,7 @@ const register = async (req: Express.Request, res: Express.Response) => {
       },
     });
     const token = genToken(result2);
-    return res.status(201).json({ created_user: result2, token: token });
+    return res.status(201).json({ id: result2.id, username: result2.username, token: token });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -38,6 +38,19 @@ const register = async (req: Express.Request, res: Express.Response) => {
 };
 const login = async (req: Express.Request, res: Express.Response) => {
   const { username, password } = req.body;
+
+  try {
+    const [user] = await UserCreds.get({ username });
+    console.log(user)
+    if (user && Bcrypt.compareSync(password, user.password)) {
+      const token = genToken(user);
+      res.status(200).json({ id: user.id, username: user.username, token: token });
+    } else {
+      res.status(401).json({ message: 'Invalid Credentials' });
+    }
+  } catch (error) {
+    
+  }
 };
 
 function genToken(user) {

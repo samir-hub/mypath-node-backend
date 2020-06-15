@@ -1,7 +1,8 @@
 import { Router } from "express";
 import type * as Express from "express";
 import { UserCreds } from "../data/models";
-import * as Bcrypt from 'bcryptjs'; 
+import * as Bcrypt from 'bcryptjs';
+import * as Jwt from 'jsonwebtoken'; 
 
 import { validateCreds } from '../middleware'; 
 
@@ -26,7 +27,8 @@ const register = async (req: Express.Request, res: Express.Response) => {
         password: hashedPassword,
       },
     });
-    return res.status(201).json(result2);
+    const token = genToken(result2);
+    return res.status(201).json({ created_user: result2, token: token });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -37,6 +39,18 @@ const register = async (req: Express.Request, res: Express.Response) => {
 const login = () => {
   
 };
+
+function genToken(user) {
+  const payload = {
+    userid: user.id,
+    username: user.username,
+    roles: ['USER']    
+  };
+  const options = { expiresIn: '1h' };
+  const token = Jwt.sign(payload, process.env.JWT_SECRET, options);
+
+  return token;
+}
 
 router.post("/register", register);
 router.post("/login", login);

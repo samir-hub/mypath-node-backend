@@ -36,8 +36,8 @@ const register = async (req: Express.Request, res: Express.Response) => {
     });
   }
 };
-const login = () => {
-  
+const login = async (req: Express.Request, res: Express.Response) => {
+  const { username, password } = req.body;
 };
 
 function genToken(user) {

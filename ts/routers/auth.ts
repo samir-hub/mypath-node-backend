@@ -1,18 +1,18 @@
 import { Router } from "express";
 import type * as Express from "express";
 import { UserCreds } from "../data/models";
-import * as Bcrypt from 'bcryptjs';
-import * as Jwt from 'jsonwebtoken'; 
+import * as Bcrypt from "bcryptjs";
+import * as Jwt from "jsonwebtoken";
 
-import { validateCreds } from '../middleware'; 
+import { validateCreds } from "../middleware";
 
 export const router = Router();
 
-router.use(validateCreds); 
+router.use(validateCreds);
 
 const register = async (req: Express.Request, res: Express.Response) => {
   const { username, password } = req.body;
-  const hashedPassword = Bcrypt.hashSync(password, 8); 
+  const hashedPassword = Bcrypt.hashSync(password, 8);
 
   try {
     const result1 = await UserCreds.get({ username });
@@ -28,7 +28,9 @@ const register = async (req: Express.Request, res: Express.Response) => {
       },
     });
     const token = genToken(result2);
-    return res.status(201).json({ id: result2.id, username: result2.username, token: token });
+    return res
+      .status(201)
+      .json({ id: result2.id, username: result2.username, token: token });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -41,15 +43,20 @@ const login = async (req: Express.Request, res: Express.Response) => {
 
   try {
     const [user] = await UserCreds.get({ username });
-    console.log(user)
+    console.log(user);
     if (user && Bcrypt.compareSync(password, user.password)) {
       const token = genToken(user);
-      res.status(200).json({ id: user.id, username: user.username, token: token });
+      res
+        .status(200)
+        .json({ id: user.id, username: user.username, token: token });
     } else {
-      res.status(401).json({ message: 'Invalid Credentials' });
+      res.status(401).json({ message: "Invalid Credentials" });
     }
   } catch (error) {
-    
+    return res.status(500).json({
+      error: error.message,
+      message: "Error logging in user.",
+    });
   }
 };
 
@@ -57,9 +64,9 @@ function genToken(user) {
   const payload = {
     userid: user.id,
     username: user.username,
-    roles: ['USER']    
+    roles: ["USER"],
   };
-  const options = { expiresIn: '1h' };
+  const options = { expiresIn: "1h" };
   const token = Jwt.sign(payload, process.env.JWT_SECRET, options);
 
   return token;
@@ -67,4 +74,3 @@ function genToken(user) {
 
 router.post("/register", register);
 router.post("/login", login);
-

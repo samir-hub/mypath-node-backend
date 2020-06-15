@@ -2,7 +2,7 @@ import { Router } from "express";
 import type * as Express from "express";
 import { UserCreds } from "../data/models";
 import * as Bcrypt from "bcryptjs";
-import * as Jwt from "jsonwebtoken";
+import { genToken } from '../utils/genToken'; 
 
 import { validateCreds } from "../middleware";
 
@@ -59,18 +59,6 @@ const login = async (req: Express.Request, res: Express.Response) => {
     });
   }
 };
-
-function genToken(user) {
-  const payload = {
-    userid: user.id,
-    username: user.username,
-    roles: ["USER"],
-  };
-  const options = { expiresIn: "1h" };
-  const token = Jwt.sign(payload, process.env.JWT_SECRET, options);
-
-  return token;
-}
 
 router.post("/register", register);
 router.post("/login", login);

@@ -4,7 +4,15 @@ const makeUserDetailsTable = async (knex: Knex) => {
   return knex.schema.createTable("user_details", (tbl) => {
     tbl.increments();
 
+    tbl.string("education", 255);
+
     tbl.string("major", 255);
+
+    tbl.float("avgmajor"); 
+
+    tbl.float("lowmajor");
+
+    tbl.float("highmajor");
 
     tbl.string("city", 255);
 

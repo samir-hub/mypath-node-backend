@@ -63,6 +63,9 @@ const login = async (req: Express.Request, res: Express.Response) => {
 const getUserInfo = async (req: Express.Request, res: Express.Response) => {
 
   const id: number = req.params.id; 
+  const token = req.headers.Authorization
+  console.log(token);
+  
 
   try {
     const [user] = await UserCreds.get({ id });

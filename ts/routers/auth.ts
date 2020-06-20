@@ -60,5 +60,24 @@ const login = async (req: Express.Request, res: Express.Response) => {
   }
 };
 
+const getUserInfo = async (req: Express.Request, res: Express.Response) => {
+
+  const id: number = req.params.id; 
+
+  try {
+    const [user] = await UserCreds.get({ id });
+    console.log(user);
+    return res.status(200).json({
+      user: user
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Error getting user.",
+    });
+  }
+};
+
+router.get("/users/getuserinfo/:id", getUserInfo)
 router.post("/register", register);
 router.post("/login", login);

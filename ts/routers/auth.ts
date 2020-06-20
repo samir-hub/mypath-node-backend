@@ -76,6 +76,7 @@ const getUserInfo = async (req: Express.Request, res: Express.Response) => {
   try {
     const [user] = await UserCreds.get({ id });
     console.log(user);
+    delete user.password
     return res.status(200).json({
       user: user
     })

@@ -2,13 +2,14 @@ import { Router } from "express";
 import type * as Express from "express";
 import { UserCreds } from "../data/models";
 import * as Bcrypt from "bcryptjs";
+import * as Jwt from "jsonwebtoken";
 import { genToken } from '../utils/genToken'; 
 
 import { validateCreds } from "../middleware";
 
 export const router = Router();
 
-router.use(validateCreds);
+//router.use(validateCreds);
 
 const register = async (req: Express.Request, res: Express.Response) => {
   const { username, password } = req.body;
@@ -62,10 +63,15 @@ const login = async (req: Express.Request, res: Express.Response) => {
 
 const getUserInfo = async (req: Express.Request, res: Express.Response) => {
 
-  const id: number = req.params.id; 
-  const token = req.headers.Authorization
-  console.log(token);
-  
+  //const id: number = req.params.id; 
+  var authorization = req.headers.authorization,
+            decoded;
+        try {
+            decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
+        } catch (e) {
+            return res.status(401).send('unauthorized');
+        }
+        var id = decoded.userid;
 
   try {
     const [user] = await UserCreds.get({ id });

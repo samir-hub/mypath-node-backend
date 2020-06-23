@@ -10,7 +10,7 @@ const addDetails = async (req: Express.Request, res: Express.Response) => {
   const id = req.params.userid;
 
   try {
-    const [result2] = await UserDetails.insert({
+    const [result] = await UserDetails.insert({
       item: {
         user_id: id,
         education: data.education,
@@ -26,10 +26,25 @@ const addDetails = async (req: Express.Request, res: Express.Response) => {
         colplusrentindex: data.colplusrentindex,
         groceriesindex: data.groceriesindex,
         restaurantpriceindex: data.restaurantpriceindex,
-        utilities: data.utilities
+        utilities: data.utilities,
+        groceries: data.groceries,
+        restaurant: data.restaurant,
+        premiums: data.premiums,
+        medExpenses: data.medExpenses,
+        carPayment: data.carPayment,
+        insurance: data.insurance,
+        gas: data.gas,
+        carMaintenance: data.carMaintenance,
+        internet: data.internet,
+        cell: data.cell,
+        tv: data.tv,
+        studentLoans: data.studentLoans,
+        clothing: data.clothing,
+        entertainment: data.entertainment,
+        pOther: data.pOther,
       },
     });
-    return res.status(201).json({ id: 1 });
+    return res.status(201).json({ result });
   } catch (error) {
     return res.status(500).json({
       error: error.message,

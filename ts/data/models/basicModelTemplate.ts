@@ -22,6 +22,14 @@ export const basicModelTemplate = <T>({
         data !== undefined ? data.map(processResult) : undefined
       );
 
+  const getUser = (where: T = {} as T) =>
+    db(tableName)
+      .join("user_details as d", { "user_creds.id": "d.user_id" })
+      .where("user_creds.id", where)
+      .then((data) =>
+        data !== undefined ? data.map(processResult) : undefined
+      );
+
   interface InsertArg {
     item: T;
   }
@@ -29,7 +37,7 @@ export const basicModelTemplate = <T>({
   const insert = ({ item }: InsertArg) =>
     db(tableName)
       .insert(preprocessData(item), keyColumnName)
-      .then(([id]) => get({ [keyColumnName]: id } as T))
+      .then(([id]) => get({ [keyColumnName]: id } as T));
 
   interface UpdateArg {
     keyValue: any;
@@ -49,6 +57,7 @@ export const basicModelTemplate = <T>({
 
   return {
     get,
+    getUser,
     insert,
     update,
     remove,

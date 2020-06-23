@@ -4,7 +4,7 @@ import { basicModelTemplate } from "./basicModelTemplate";
 
 const tableName = "user_creds";
 
-const { get, insert } = basicModelTemplate<UserCreds>({
+const { get, insert, getUser } = basicModelTemplate<UserCreds>({
   db,
   tableName,
 });
@@ -12,4 +12,5 @@ const { get, insert } = basicModelTemplate<UserCreds>({
 export default {
   get,
   insert,
+  getUser
 };

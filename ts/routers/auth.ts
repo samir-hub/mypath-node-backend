@@ -63,7 +63,6 @@ const login = async (req: Express.Request, res: Express.Response) => {
 
 const getUserInfo = async (req: Express.Request, res: Express.Response) => {
 
-  //const id: number = req.params.id; 
   var authorization = req.headers.authorization,
             decoded;
         try {
@@ -74,7 +73,7 @@ const getUserInfo = async (req: Express.Request, res: Express.Response) => {
         var id = decoded.userid;
 
   try {
-    const [user] = await UserCreds.get({ id });
+    const [user] = await UserCreds.getUser(id);
     console.log(user);
     delete user.password
     return res.status(200).json({
@@ -88,6 +87,6 @@ const getUserInfo = async (req: Express.Request, res: Express.Response) => {
   }
 };
 
-router.get("/users/getuserinfo/:id", getUserInfo)
+router.get("/users/getuserinfo", getUserInfo)
 router.post("/register", register);
 router.post("/login", login);

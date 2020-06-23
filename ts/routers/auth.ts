@@ -5,7 +5,7 @@ import * as Bcrypt from "bcryptjs";
 import * as Jwt from "jsonwebtoken";
 import { genToken } from '../utils/genToken'; 
 
-import { validateCreds } from "../middleware";
+//import { validateCreds } from "../middleware";
 
 export const router = Router();
 

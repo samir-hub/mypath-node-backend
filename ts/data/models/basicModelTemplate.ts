@@ -30,6 +30,13 @@ export const basicModelTemplate = <T>({
         data !== undefined ? data.map(processResult) : undefined
       );
 
+  const getDetails = (where: T = {} as T) =>
+    db(tableName)
+      .where(where)
+      .then((data) =>
+        data !== undefined ? data.map(processResult) : undefined
+      );
+
   interface InsertArg {
     item: T;
   }
@@ -58,6 +65,7 @@ export const basicModelTemplate = <T>({
   return {
     get,
     getUser,
+    getDetails,
     insert,
     update,
     remove,

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import type * as Express from "express";
+import * as Jwt from "jsonwebtoken";
 import { UserDetails } from "../data/models";
 import { UserDetails as T_UserDetails } from "../types";
 
@@ -53,4 +54,30 @@ const addDetails = async (req: Express.Request, res: Express.Response) => {
   }
 };
 
+const getDetails = async (req: Express.Request, res: Express.Response) => {
+
+  var authorization = req.headers.authorization,
+            decoded;
+        try {
+            decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
+        } catch (e) {
+            return res.status(401).send('unauthorized');
+        }
+        var user_id = decoded.userid;
+
+  try {
+    const user = await UserDetails.getDetails({user_id});
+    console.log(user);
+    return res.status(200).json({
+      user: user
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Error getting user.",
+    });
+  }
+};
+
 router.post("/:userid", addDetails);
+router.get("/", getDetails);

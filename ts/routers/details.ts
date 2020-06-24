@@ -66,10 +66,9 @@ const getDetails = async (req: Express.Request, res: Express.Response) => {
         var user_id = decoded.userid;
 
   try {
-    const user = await UserDetails.getDetails({user_id});
-    console.log(user);
+    const details = await UserDetails.getDetails({user_id});
     return res.status(200).json({
-      user: user
+      details: details
     })
   } catch (error) {
     return res.status(500).json({

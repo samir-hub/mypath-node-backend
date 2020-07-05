@@ -82,8 +82,10 @@ const updateDetails = async (req: Express.Request, res: Express.Response) => {
 
   try {
     let oldDetails = await UserDetails.get({ id });
+    let updates = req.body; 
+    let updatedDetails = {...oldDetails[0], ...updates};
     return res.status(200).json({
-      details: oldDetails,
+      details: updatedDetails,
     });
   } catch (error) {
     return res.status(500).json({

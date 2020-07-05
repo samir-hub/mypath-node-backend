@@ -80,10 +80,11 @@ const getDetails = async (req: Express.Request, res: Express.Response) => {
 
 const updateDetails = async(req: Express.Request, res: Express.Response) => {
 
-  
+  let id = req.params.detailsid; 
 
 
 }
 
-router.post("/:userid", addDetails);
+router.post("/user/:userid", addDetails);
 router.get("/", getDetails);
+router.put("/:detailsid", updateDetails); 

@@ -55,21 +55,20 @@ const addDetails = async (req: Express.Request, res: Express.Response) => {
 };
 
 const getDetails = async (req: Express.Request, res: Express.Response) => {
-
   var authorization = req.headers.authorization,
-            decoded;
-        try {
-            decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
-        } catch (e) {
-            return res.status(401).send('unauthorized');
-        }
-        var user_id = decoded.userid;
+    decoded;
+  try {
+    decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  var user_id = decoded.userid;
 
   try {
-    const details = await UserDetails.getDetails({user_id});
+    const details = await UserDetails.getDetails({ user_id });
     return res.status(200).json({
-      details: details
-    })
+      details: details,
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -78,13 +77,22 @@ const getDetails = async (req: Express.Request, res: Express.Response) => {
   }
 };
 
-const updateDetails = async(req: Express.Request, res: Express.Response) => {
+const updateDetails = async (req: Express.Request, res: Express.Response) => {
+  let id = req.params.detailsid;
 
-  let id = req.params.detailsid; 
-
-
-}
+  try {
+    let oldDetails = await UserDetails.get({ id });
+    return res.status(200).json({
+      details: oldDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Error updating details.",
+    });
+  }
+};
 
 router.post("/user/:userid", addDetails);
 router.get("/", getDetails);
-router.put("/:detailsid", updateDetails); 
+router.put("/:detailsid", updateDetails);

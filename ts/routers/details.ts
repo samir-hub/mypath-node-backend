@@ -82,8 +82,9 @@ const updateDetails = async (req: Express.Request, res: Express.Response) => {
 
   try {
     let oldDetails = await UserDetails.get({ id });
-    let updates = req.body; 
-    let updatedDetails = {...oldDetails[0], ...updates};
+    let updates = req.body;
+    let updatedDetails = { ...oldDetails[0], ...updates };
+    // updatedDetails works. Need to actually update with the update method. Easy. 
     return res.status(200).json({
       details: updatedDetails,
     });

@@ -3,7 +3,8 @@ import type * as Express from "express";
 import { UserCreds } from "../data/models";
 import * as Bcrypt from "bcryptjs";
 import * as Jwt from "jsonwebtoken";
-import { genToken } from '../utils/genToken'; 
+import { genToken } from "../utils/genToken";
+import { validateCreds } from "../middleware";
 
 //import { validateCreds } from "../middleware";
 
@@ -62,23 +63,22 @@ const login = async (req: Express.Request, res: Express.Response) => {
 };
 
 const getUserInfo = async (req: Express.Request, res: Express.Response) => {
-
   var authorization = req.headers.authorization,
-            decoded;
-        try {
-            decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
-        } catch (e) {
-            return res.status(401).send('unauthorized');
-        }
-        var id = decoded.userid;
+    decoded;
+  try {
+    decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  var id = decoded.userid;
 
   try {
     const user = await UserCreds.getUser(id);
     console.log(user);
-    user.forEach(user => delete user.password)
+    user.forEach((user) => delete user.password);
     return res.status(200).json({
-      user: user
-    })
+      user: user,
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -87,6 +87,6 @@ const getUserInfo = async (req: Express.Request, res: Express.Response) => {
   }
 };
 
-router.get("/users/getuserinfo", getUserInfo)
-router.post("/register", register);
-router.post("/login", login);
+router.get("/users/getuserinfo", getUserInfo);
+router.post("/register", validateCreds, register);
+router.post("/login", validateCreds, login);

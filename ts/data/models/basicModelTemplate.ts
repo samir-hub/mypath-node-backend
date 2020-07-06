@@ -46,12 +46,12 @@ export const basicModelTemplate = <T>({
       .insert(preprocessData(item), keyColumnName)
       .then(([id]) => get({ [keyColumnName]: id } as T));
 
-  interface UpdateArg {
-    keyValue: any;
-    changes: T;
-  }
+  // interface UpdateArg {
+  //   keyValue: any;
+  //   changes: any;
+  // }
 
-  const update = ({ keyValue, changes }: UpdateArg) =>
+  const update = ({ keyValue, changes }) =>
     db(tableName)
       .where({ [keyColumnName]: keyValue })
       .update(preprocessData(changes))

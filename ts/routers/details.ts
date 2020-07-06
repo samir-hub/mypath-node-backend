@@ -4,14 +4,14 @@ import * as Jwt from "jsonwebtoken";
 import { UserDetails } from "../data/models";
 import { UserDetails as T_UserDetails } from "../types";
 
-export const router = Router();
+export let router = Router();
 
 const addDetails = async (req: Express.Request, res: Express.Response) => {
-  const data: T_UserDetails = req.body;
-  const id = req.params.userid;
+  let data: T_UserDetails = req.body;
+  let id = req.params.userid;
 
   try {
-    const [result] = await UserDetails.insert({
+    let [result] = await UserDetails.insert({
       item: {
         user_id: id,
         education: data.education,
@@ -55,14 +55,14 @@ const addDetails = async (req: Express.Request, res: Express.Response) => {
 };
 
 const getDetails = async (req: Express.Request, res: Express.Response) => {
-  var authorization = req.headers.authorization,
+  let authorization = req.headers.authorization,
     decoded;
   try {
     decoded = Jwt.verify(authorization, process.env.JWT_SECRET);
   } catch (e) {
     return res.status(401).send("unauthorized");
   }
-  var user_id = decoded.userid;
+  let user_id = decoded.userid;
 
   try {
     const details = await UserDetails.getDetails({ user_id });
@@ -84,7 +84,6 @@ const updateDetails = async (req: Express.Request, res: Express.Response) => {
     let oldDetails = await UserDetails.get({ id });
     let updates = req.body;
     let updatedDetails = { ...oldDetails[0], ...updates };
-    // updatedDetails works. Need to actually update with the update method. Easy.
     let details = await UserDetails.update({
       keyValue: id,
       changes: updatedDetails,
